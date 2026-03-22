@@ -11,16 +11,13 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var move_x := Input.get_axis("move_left","move_right")
-	var move_z := Input.get_axis("move_backwards","move_forwards")
-	direction.x = move_x
-	direction.z = move_z
-	if direction.x != 0:
-		velocity.x = direction.x + speed
-	else:
-		velocity.x = 0
-	if direction.z != 0:
-		velocity.z = direction.y + speed
-	else:
-		velocity.z = 0
+	
+	# set input start
+	var move_x = Input.get_axis("move_left","move_right")
+	var move_z = Input.get_axis("move_forwards","move_backwards")
+	# set input end 
+	
+	direction = Vector3(move_x,0.0,move_z).normalized()
+	velocity = direction * speed
+	#print(velocity , direction)
 	move_and_slide()
