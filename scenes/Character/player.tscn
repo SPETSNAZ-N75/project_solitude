@@ -7,12 +7,9 @@
 [node name="Player" type="CharacterBody3D" unique_id=1083406038]
 script = ExtResource("1_hs0k7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2085799199]
+[node name="CapsuleCollision" type="CollisionShape3D" parent="." unique_id=2085799199]
 shape = SubResource("CapsuleShape3D_auy0q")
 debug_color = Color(0.3372549, 0.62352943, 0, 1)
-debug_fill = false
 
-[node name="Player" type="Node3D" parent="." unique_id=1502973044]
-
-[node name="Camera3D" type="Camera3D" parent="Player" unique_id=506798527]
+[node name="FPCam" type="Camera3D" parent="." unique_id=506798527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
