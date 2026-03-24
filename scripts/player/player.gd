@@ -1,20 +1,25 @@
 extends CharacterBody3D
+
 @onready var fp_cam: Camera3D = $FPCam
 
 @export var speed = 100
 @export var fall_accel = 75
 @export var jump_height = 10
+@export var mouse_sens = 0.5
 var direction = Vector3.ZERO
 var bmouse_captured = true
-@export var mouse_sens = .05
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _unhandled_input(event: InputEvent) -> void:
+	#Camera movement
 	if event is InputEventMouseMotion && bmouse_captured:
-		rotate_y(event.relative.x * mouse_sens)
-		fp_cam.rotate_x(event.relative.y * mouse_sens)
+		rotate_y(deg_to_rad(-event.relative.x * mouse_sens))
+		fp_cam.rotate_x(deg_to_rad(-event.relative.y * mouse_sens))
+		fp_cam.rotation_degrees.x = clamp(fp_cam.rotation_degrees.x, -90 , 90)
+
 func _input(event):
 	
 	#mouse_capture toggle
@@ -25,16 +30,16 @@ func _input(event):
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			bmouse_captured = true
-	
+			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	
-	# set movement input
-	var move_x = Input.get_axis("move_left","move_right")
-	var move_z = Input.get_axis("move_forwards","move_backwards")
-
-	
-	direction = Vector3(move_x,0.0,move_z).normalized()
-	velocity = direction * speed
-	#print(velocity , direction)
+	#movement input
+	var move_direction = Input.get_vector("move_left","move_right","move_forwards","move_backwards")
+	direction = (transform.basis * Vector3(move_direction.x, 0, move_direction.y)).normalized()
+	if direction:
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+	else:
+		velocity.x = move_toward(velocity.x,0,speed)
+		velocity.z = move_toward(velocity.z,0,speed)
 	move_and_slide()
