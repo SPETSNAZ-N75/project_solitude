@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
 @onready var fp_cam: Camera3D = $FPCam
+@onready var arms: Node3D = $FPCam/arms
+@onready var anim_player: AnimationPlayer = $FPCam/arms/AnimationPlayer2
 
 @export var speed = 100
 @export var fall_accel = 75
@@ -12,7 +14,8 @@ var bmouse_captured = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	anim_player.play("AnimLib_1/Idle")
+	
 func _unhandled_input(event: InputEvent) -> void:
 	#Camera movement
 	if event is InputEventMouseMotion && bmouse_captured:
@@ -39,7 +42,9 @@ func _process(_delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		anim_player.play("AnimLib_1/walk")
 	else:
 		velocity.x = move_toward(velocity.x,0,speed)
 		velocity.z = move_toward(velocity.z,0,speed)
+		anim_player.play("AnimLib_1/Idle")
 	move_and_slide()

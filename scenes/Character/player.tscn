@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cximqqftmy8hm"]
 
 [ext_resource type="Script" uid="uid://ctrg8rrndaibv" path="res://scripts/player/player.gd" id="1_hs0k7"]
+[ext_resource type="PackedScene" uid="uid://cyhlclaymenrk" path="res://assets/character/player/arms.glb" id="2_4mqus"]
+[ext_resource type="AnimationLibrary" uid="uid://bwhe7tlhm6er1" path="res://assets/character/player/AnimLib_1.res" id="3_0tuvh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_auy0q"]
 
@@ -13,3 +15,10 @@ debug_color = Color(0.3372549, 0.62352943, 0, 1)
 
 [node name="FPCam" type="Camera3D" parent="." unique_id=506798527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+fov = 70.0
+
+[node name="arms" parent="FPCam" unique_id=360310617 instance=ExtResource("2_4mqus")]
+transform = Transform3D(-0.5, 0, -4.371139e-08, 0, 0.5, 0, 4.371139e-08, 0, -0.5, 0, 0, 0)
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="FPCam/arms" unique_id=60056623]
+libraries/AnimLib_1 = ExtResource("3_0tuvh")
